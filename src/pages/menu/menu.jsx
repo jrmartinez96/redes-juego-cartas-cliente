@@ -1,7 +1,19 @@
 import React from 'react'
 import './menu.css'
+import { useHistory } from "react-router-dom";
 
-export class MenuPage extends React.Component {
+class MenuPage extends React.Component {
+
+    constructor(props) {
+        super(props)
+    }
+
+    goMesa = () => {
+        // let history = useHistory()
+        // history.push('/mesa')
+        console.log("hola")
+        this.props.history.push('/mesa')
+    }
 
     render() {
         return (
@@ -18,7 +30,10 @@ export class MenuPage extends React.Component {
                             </input>
                         </div>
                         <div className="button-play-container">
-                            <button className="button-play">Jugar</button>
+                            <button 
+                                className="button-play"
+                                onClick={this.goMesa}
+                            >Jugar</button>
                         </div>
                     </div>
                 </div>
@@ -26,3 +41,5 @@ export class MenuPage extends React.Component {
         )
     }
 }
+
+export default MenuPage;

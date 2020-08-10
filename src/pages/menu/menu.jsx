@@ -9,9 +9,6 @@ class MenuPage extends React.Component {
     }
 
     goMesa = () => {
-        // let history = useHistory()
-        // history.push('/mesa')
-        console.log("hola")
         this.props.history.push('/mesa')
     }
 

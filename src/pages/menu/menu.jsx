@@ -1,12 +1,7 @@
 import React from 'react'
 import './menu.css'
-import { useHistory } from "react-router-dom";
 
 class MenuPage extends React.Component {
-
-    constructor(props) {
-        super(props)
-    }
 
     goMesa = () => {
         this.props.history.push('/mesa')

@@ -65,7 +65,7 @@ class CartasManoComponent extends React.Component {
 
         let cartasCopy = [...this.state.cartas]
 
-        if (cardsSelected === 3 && cartasCopy[index].selected) {
+        if (cardsSelected === 3 && cartasCopy[index].selected) { // Si hay tres seleccionadas y se deselecciona una, todas las seleccionados se vuelven no basura
             cartasCopy[index].selected = !cartasCopy[index].selected
             
             this.state.cartas.forEach((carta, ic) => {
@@ -76,7 +76,7 @@ class CartasManoComponent extends React.Component {
 
             this.setState({cartas: cartasCopy})
 
-        } else if (cardsSelected < 3 || cartasCopy[index].selected) {
+        } else if (cardsSelected < 3 || cartasCopy[index].selected) { // Si se selecciona un carta y hay menos de 3 seleccionadas, si es la tercera que se selecciona es la basura
 
             if (cardsSelected === 2 && !cartasCopy[index].selected) {
                 cartasCopy[index].basura = true

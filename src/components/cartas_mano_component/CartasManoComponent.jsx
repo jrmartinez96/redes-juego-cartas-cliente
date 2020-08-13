@@ -12,35 +12,43 @@ class CartasManoComponent extends React.Component {
             cartas: [
                 {
                     nombre: "2d",
-                    selected: false
+                    selected: false,
+                    basura: false,
                 },
                 {
                     nombre: "2t",
-                    selected: false
+                    selected: false,
+                    basura: false,
                 },
                 {
                     nombre: "2e",
-                    selected: false
+                    selected: false,
+                    basura: false,
                 },
                 {
                     nombre: "2c",
-                    selected: false
+                    selected: false,
+                    basura: false,
                 },
                 {
                     nombre: "1d",
-                    selected: false
+                    selected: false,
+                    basura: false,
                 },
                 {
                     nombre: "1t",
-                    selected: false
+                    selected: false,
+                    basura: false,
                 },
                 {
                     nombre: "1e",
-                    selected: false
+                    selected: false,
+                    basura: false,
                 },
                 {
                     nombre: "1c",
-                    selected: false
+                    selected: false,
+                    basura: false,
                 },
             ]
         }
@@ -57,7 +65,23 @@ class CartasManoComponent extends React.Component {
 
         let cartasCopy = [...this.state.cartas]
 
-        if (cardsSelected < 2 || cartasCopy[index].selected) {
+        if (cardsSelected === 3 && cartasCopy[index].selected) {
+            cartasCopy[index].selected = !cartasCopy[index].selected
+            
+            this.state.cartas.forEach((carta, ic) => {
+                if (cartasCopy[ic].basura) {
+                    cartasCopy[ic].basura = false
+                }
+            })
+
+            this.setState({cartas: cartasCopy})
+
+        } else if (cardsSelected < 3 || cartasCopy[index].selected) {
+
+            if (cardsSelected === 2 && !cartasCopy[index].selected) {
+                cartasCopy[index].basura = true
+            }
+
             cartasCopy[index].selected = !cartasCopy[index].selected
     
             this.setState({cartas: cartasCopy})
@@ -107,7 +131,7 @@ class CartasManoComponent extends React.Component {
                         return (
                             <div
                                 key={index}
-                                className={`carta-container${carta.selected ? ' selected': ''}`}
+                                className={`carta-container${carta.selected ? ' selected': ''}${carta.basura ? ' selected-basura': ''}`}
                                 onClick={() => this.onSelectCard(index)}
                             >
                                 <div className={`carta-nombre tipo-${color}`}>

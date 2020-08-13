@@ -60,7 +60,7 @@ class ChatComponent extends React.Component {
                         this.state.messages.map((message, index) => {
 
                             return (
-                                <div className="message-container">
+                                <div key={index} className="message-container">
                                     <div className="message-user">
                                         {message.nombre}{index}:
                                     </div>

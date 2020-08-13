@@ -1,6 +1,7 @@
 import React from 'react'
 import './mesa.css'
 import ChatComponent from '../../components/chat_component/ChatComponent'
+import CartasManoComponent from '../../components/cartas_mano_component/CartasManoComponent'
 
 class MesaPage extends React.Component {
 
@@ -11,6 +12,7 @@ class MesaPage extends React.Component {
 
                 </div>
                 <ChatComponent/>
+                <CartasManoComponent/>
             </div>
         )
     }

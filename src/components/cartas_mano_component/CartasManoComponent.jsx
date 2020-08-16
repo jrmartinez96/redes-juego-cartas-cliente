@@ -145,6 +145,8 @@ class CartasManoComponent extends React.Component {
                     })
                 }
 
+                <button className="enviar-jugada" onClick={()=> console.log("enviar")}>Enviar jugada</button>
+
             </div>
         )
     }

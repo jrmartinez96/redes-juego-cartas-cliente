@@ -57,72 +57,49 @@ class MesaComponent extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState){
-        if (prevProps.juego.cartaBasura.cartaId !== this.props.juego.cartaBasura.cartaId) {
-            this.setState({
-                cartaBasura: {
-                    nombre: this.props.juego.cartaBasura.cartaId
-                }
-            })
-        }
-
-        if (prevProps.juego.cantidadCartas !== this.props.juego.cantidadCartas) {
-            let players = [...this.props.juego.players]
-            let myPlayerPos = -1
-
-            players.forEach((player, index) => {
-                if (player.playerId === this.props.playerId) {
-                    myPlayerPos = index
-                }
-            })
-
-            if (myPlayerPos !== -1) {
-                players.splice(myPlayerPos, 1)
-
-                this.setState({
-                    cantidadCartasP1: this.props.juego.cantidadCartas[players[0].playerId],
-                    cantidadCartasP2: this.props.juego.cantidadCartas[players[1].playerId],
-                    nombreP1: players[0].playerName,
-                    nombreP2: players[1].playerName,
-                })
-            }
-        }
-
-        if (prevProps.juego.cantidadCartasBaraja !== this.props.juego.cantidadCartasBaraja) {
-            this.setState({
-                cantidadCartasBaraja: this.props.juego.cantidadCartasBaraja
-            })
-        }
-
-        if (prevProps.juego.mesa !== this.props.juego.mesa) {
-            this.setState({
-                cartasMesa: this.props.juego.mesa.map((trio) => {
-                    return trio.map(carta => {
-                        return {
-                            nombre: carta.cartaId
-                        }
-                    })
-                })
-            })
-        }
-    }
-
     render() {
         // Cartas de P1 y P2
+        let cantidadCartasP1 = 8
+        let cantidadCartasP2 = 8
+        let nombreP1 = ""
+        let nombreP2 = ""
+        let players = [...this.props.juego.players]
+        let myPlayerPos = -1
+
+        players.forEach((player, index) => {
+            if (player.playerId === this.props.playerId) {
+                myPlayerPos = index
+            }
+        })
+
+        if (myPlayerPos !== -1) {
+            players.splice(myPlayerPos, 1)
+
+            cantidadCartasP1 = this.props.juego.cantidadCartas[players[0].playerId]
+            cantidadCartasP2 = this.props.juego.cantidadCartas[players[1].playerId]
+            nombreP1 = players[0].playerName
+            nombreP2 = players[1].playerName
+        }
         const cartasP1 = []
         const cartasP2 = []
 
-        for (let index = 0; index < this.state.cantidadCartasP1; index++) {
+        for (let index = 0; index < cantidadCartasP1; index++) {
             cartasP1.push(<img key={index} src={backcard} alt="carta" className="backcard"/>)
         }
 
-        for (let index = 0; index < this.state.cantidadCartasP2; index++) {
+        for (let index = 0; index < cantidadCartasP2; index++) {
             cartasP2.push(<img key={index}  src={backcard} alt="carta" className="backcard"/>)
         }
 
 
         // Cartas de Mesa
-        const { cartasMesa } = this.state;
+        let cartasMesa = this.props.juego.mesa.map((trio) => {
+            return trio.map(carta => {
+                return {
+                    nombre: carta.cartaId
+                }
+            })
+        })
         const rows = []
         let row = []
 
@@ -193,7 +170,7 @@ class MesaComponent extends React.Component {
         }
 
         // Carta Basura
-        const nombreBasura = this.state.cartaBasura.nombre;
+        const nombreBasura = this.props.juego.cartaBasura.cartaId;
         const numeroBasura = nombreBasura.substring(0, nombreBasura.length - 1)
         const tipoBasura = nombreBasura.substring(nombreBasura.length - 1, nombreBasura.length)
         let colorBasura = ""
@@ -245,20 +222,20 @@ class MesaComponent extends React.Component {
                     <div style={{"textAlign": "center", "marginLeft": "10px"}}>
                         <img src={backcard} alt="carta" className="deck"/>
                         <br/>
-                        Deck ({this.state.cantidadCartasBaraja})
+                        Deck ({this.props.juego.cantidadCartasBaraja})
                     </div>
                 </div>
                 <div className="jugador1-nombre">
-                    {this.state.nombreP1}
+                    {nombreP1}
                 </div>
                 <div className="jugador1">
                     {cartasP1}
                 </div>
                 <div className="jugador2-nombre">
-                    {this.state.nombreP2}
+                    {nombreP2}
                 </div>
                 <div className="jugador2">
-                    {cartasP1}
+                    {cartasP2}
                 </div>
                 <div className="cartas-mesa">
                     {rows}

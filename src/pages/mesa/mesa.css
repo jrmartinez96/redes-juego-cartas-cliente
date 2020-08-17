@@ -37,3 +37,18 @@
     90%  {background-color: orange;}
     100% {background-color: green;}
 }
+
+.ayuda-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 75px;
+    margin: auto;
+    background: red;
+    padding: 5px;
+    color: white;
+    border-radius: 10px;
+    border: 3px solid white;
+    text-align: center;
+    cursor: pointer;
+}

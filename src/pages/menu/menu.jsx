@@ -41,7 +41,6 @@ class MenuPage extends React.Component {
                             <button 
                                 className="button-play"
                                 onClick={this.onConnectServer}
-                                disabled={this.state.disableButton}
                             >Jugar</button>
                         </div>
                     </div>

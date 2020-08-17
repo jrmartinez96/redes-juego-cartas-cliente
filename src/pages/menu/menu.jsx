@@ -1,10 +1,12 @@
 import React from 'react'
 import './menu.css'
 
+
+
 class MenuPage extends React.Component {
 
-    goMesa = () => {
-        this.props.history.push('/mesa')
+    onConnectServer = () => {
+        this.props.onJoin()
     }
 
     render() {
@@ -24,7 +26,7 @@ class MenuPage extends React.Component {
                         <div className="button-play-container">
                             <button 
                                 className="button-play"
-                                onClick={this.goMesa}
+                                onClick={this.onConnectServer}
                             >Jugar</button>
                         </div>
                     </div>

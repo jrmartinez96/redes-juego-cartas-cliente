@@ -5,6 +5,11 @@ import CartasManoComponent from '../../components/cartas_mano_component/CartasMa
 import MesaComponent from '../../components/mesa_component/MesaComponent'
 
 class MesaPage extends React.Component {
+    constructor(props) {
+        super(props)
+
+        console.log(props)
+    }
 
     render() {
         return (

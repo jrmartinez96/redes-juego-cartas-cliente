@@ -11,8 +11,11 @@ class MesaComponent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            cantidadCartasBaraja: 0,
             cantidadCartasP1: 8,
             cantidadCartasP2: 8,
+            nombreP1: "",
+            nombreP2: "",
             cartaBasura: {
                 nombre: "jd"
             },
@@ -20,55 +23,87 @@ class MesaComponent extends React.Component {
                 [
                     {
                         nombre: "2d",
-                        selected: false,
-                        basura: false,
                     },
                     {
                         nombre: "2t",
-                        selected: false,
-                        basura: false,
                     },
                     {
                         nombre: "2e",
-                        selected: false,
-                        basura: false,
                     },
                 ],
                 [
                     {
                         nombre: "2d",
-                        selected: false,
-                        basura: false,
                     },
                     {
                         nombre: "2t",
-                        selected: false,
-                        basura: false,
                     },
                     {
                         nombre: "2e",
-                        selected: false,
-                        basura: false,
                     },
                 ],
                 [
                     {
                         nombre: "2d",
-                        selected: false,
-                        basura: false,
                     },
                     {
                         nombre: "2t",
-                        selected: false,
-                        basura: false,
                     },
                     {
                         nombre: "2e",
-                        selected: false,
-                        basura: false,
                     },
                 ],
             ]
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+        if (prevProps.juego.cartaBasura.cartaId !== this.props.juego.cartaBasura.cartaId) {
+            this.setState({
+                cartaBasura: {
+                    nombre: this.props.juego.cartaBasura.cartaId
+                }
+            })
+        }
+
+        if (prevProps.juego.cantidadCartas !== this.props.juego.cantidadCartas) {
+            let players = [...this.props.juego.players]
+            let myPlayerPos = -1
+
+            players.forEach((player, index) => {
+                if (player.playerId === this.props.playerId) {
+                    myPlayerPos = index
+                }
+            })
+
+            if (myPlayerPos !== -1) {
+                players.splice(myPlayerPos, 1)
+
+                this.setState({
+                    cantidadCartasP1: this.props.juego.cantidadCartas[players[0].playerId],
+                    cantidadCartasP2: this.props.juego.cantidadCartas[players[1].playerId],
+                    nombreP1: players[0].playerName,
+                    nombreP2: players[1].playerName,
+                })
+            }
+        }
+
+        if (prevProps.juego.cantidadCartasBaraja !== this.props.juego.cantidadCartasBaraja) {
+            this.setState({
+                cantidadCartasBaraja: this.props.juego.cantidadCartasBaraja
+            })
+        }
+
+        if (prevProps.juego.mesa !== this.props.juego.mesa) {
+            this.setState({
+                cartasMesa: this.props.juego.mesa.map((trio) => {
+                    return trio.map(carta => {
+                        return {
+                            nombre: carta.cartaId
+                        }
+                    })
+                })
+            })
         }
     }
 
@@ -210,11 +245,17 @@ class MesaComponent extends React.Component {
                     <div style={{"textAlign": "center", "marginLeft": "10px"}}>
                         <img src={backcard} alt="carta" className="deck"/>
                         <br/>
-                        Deck (5)
+                        Deck ({this.state.cantidadCartasBaraja})
                     </div>
+                </div>
+                <div className="jugador1-nombre">
+                    {this.state.nombreP1}
                 </div>
                 <div className="jugador1">
                     {cartasP1}
+                </div>
+                <div className="jugador2-nombre">
+                    {this.state.nombreP2}
                 </div>
                 <div className="jugador2">
                     {cartasP1}

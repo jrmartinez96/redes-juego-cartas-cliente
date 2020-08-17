@@ -67,3 +67,18 @@
 .enviar-jugada:hover {
     background-color: rgb(201, 130, 0);
 }
+
+/* Enviar boton */
+.pasar-jugada {
+    background-color: rgb(204, 0, 0);
+    margin: auto auto 20px 20px;
+    border: 3px solid orange;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    outline: 0;
+}
+
+.pasar-jugada:hover {
+    background-color: rgb(170, 0, 0);
+}

@@ -8,7 +8,24 @@ class MesaPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            connection: props.connection
+            connection: props.connection,
+            nombreTurno: ""
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.juego.turnoId !== this.props.juego.turnoId) {
+            let nuevoNombre = ""
+
+            this.props.juego.players.forEach(player => {
+                if (player.playerId === this.props.juego.turnoId) {
+                    nuevoNombre = player.playerName
+                }
+            });
+
+            this.setState({
+                nombreTurno: nuevoNombre
+            })
         }
     }
 
@@ -16,9 +33,9 @@ class MesaPage extends React.Component {
         return (
             <div className="mesa-page">
                 <div className="turno">
-                    Turno de: J1
+                    Turno de: {this.state.nombreTurno}
                 </div>
-                <MesaComponent juego={this.props.juego}/>
+                <MesaComponent gameId={this.props.gameId} playerId={this.props.playerId} juego={this.props.juego}/>
                 <ChatComponent gameId={this.props.gameId} playerId={this.props.playerId} chat={this.props.chat} connection={this.state.connection}/>
                 <CartasManoComponent gameId={this.props.gameId} playerId={this.props.playerId} juego={this.props.juego} connection={this.state.connection}/>
             </div>

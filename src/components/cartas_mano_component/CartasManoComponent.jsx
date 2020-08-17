@@ -4,59 +4,27 @@ import diamante from '../../assets/images/diamante.png'
 import corazon from '../../assets/images/heart.png'
 import trebol from '../../assets/images/trebol.png'
 import espada from '../../assets/images/spade.png'
+import { store } from 'react-notifications-component';
 
 class CartasManoComponent extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            cartas: [
-                {
-                    nombre: "2d",
-                    selected: false,
-                    basura: false,
-                },
-                {
-                    nombre: "2t",
-                    selected: false,
-                    basura: false,
-                },
-                {
-                    nombre: "2e",
-                    selected: false,
-                    basura: false,
-                },
-                {
-                    nombre: "2c",
-                    selected: false,
-                    basura: false,
-                },
-                {
-                    nombre: "1d",
-                    selected: false,
-                    basura: false,
-                },
-                {
-                    nombre: "1t",
-                    selected: false,
-                    basura: false,
-                },
-                {
-                    nombre: "1e",
-                    selected: false,
-                    basura: false,
-                },
-                {
-                    nombre: "1c",
-                    selected: false,
-                    basura: false,
-                },
-            ]
+            cartas: []
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.juego !== this.props.juego) {
-            
+        if (prevProps.juego.cartasJugador.stack !== this.props.juego.cartasJugador.stack) {
+            this.setState({
+                cartas: this.props.juego.cartasJugador.stack.map(id => {
+                    return {
+                        nombre: id,
+                        selected: false,
+                        basura: false
+                    }
+                })
+            })
         }
     }
 
@@ -94,6 +62,57 @@ class CartasManoComponent extends React.Component {
         }
 
 
+    }
+
+    onEnviarMano = () => {
+        let cartasMano = []
+        let cartaBasura = this.props.juego.cartaBasura.cartaId
+        let cartaPagar = ""
+
+        this.state.cartas.forEach(carta => {
+            if (carta.selected && !carta.basura) {
+                cartasMano.push({cartaId: carta.nombre})
+            } else if (carta.basura) {
+                cartaPagar = carta.nombre
+            }
+        })
+
+        if (cartasMano.length === 2 && cartaPagar !== "" && cartaBasura !== "") {
+            const { connection } = this.props
+            connection.send(JSON.stringify({
+                opcion: 1,
+                playerId: this.props.playerId,
+                gameId: this.props.gameId,
+                pasar: false,
+                cartaBasuraId: cartaBasura,
+                cartasMano: cartasMano,
+                cartaPagarId: cartaPagar
+            }))
+        } else {
+            store.addNotification({
+                title: "Error",
+                message: "Jugada no válida, selecciona dos cartas para complementar y una para pagar.",
+                type: "danger",
+                insert: "top",
+                container: "top-left",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              });
+        }
+    }
+
+    onPasarJugada = () => {
+        const { connection } = this.props
+        connection.send(JSON.stringify({
+            opcion: 1,
+            playerId: this.props.playerId,
+            gameId: this.props.gameId,
+            pasar: true
+        }))
     }
 
     render() {
@@ -151,7 +170,16 @@ class CartasManoComponent extends React.Component {
                     })
                 }
 
-                <button className="enviar-jugada" onClick={()=> console.log("enviar")}>Enviar jugada</button>
+                <button 
+                    className="enviar-jugada" 
+                    onClick={this.onEnviarMano}
+                    disabled={this.props.juego.turnoId !== this.props.playerId}
+                >Enviar jugada</button>
+                <button 
+                    className="pasar-jugada" 
+                    onClick={this.onPasarJugada}
+                    disabled={this.props.juego.turnoId !== this.props.playerId}
+                >Pasar jugada</button>
 
             </div>
         )

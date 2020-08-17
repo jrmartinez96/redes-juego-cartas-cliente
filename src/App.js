@@ -16,18 +16,25 @@ class App extends React.Component {
       connection: "",
       chat: [],
       juego: {
-        gameId: -1,
-        turnoId: 0,
-        players:[]
+        gameId: "",
+        turnoId: "",
+        players:[],
+        cartasJugador:{stack:[]},
+        cartaBasura:{cartaId:"", nombreCarta: ""},
+        cantidadCartas:[],
+        cantidadCartasBaraja: 0,
+        mesa: [],
       },
-      gameId: -1,
-      playerId: -1,
-      ganadorId: -1
+      gameId: "",
+      playerId: "",
+      ganadorId: "",
+      turnoId: ""
     }
   }
 
   onJoin = (name) => {
-    const client = new W3CWebSocket('ws://localhost:8000');
+    // const client = new W3CWebSocket('ws://localhost:8000');
+    const client = new W3CWebSocket('ws://redes-proyecto-1-conquian.herokuapp.com/');
     client.onopen = () => {
         console.log("open")
 

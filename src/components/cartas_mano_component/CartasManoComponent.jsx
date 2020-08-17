@@ -54,6 +54,12 @@ class CartasManoComponent extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.juego !== this.props.juego) {
+            
+        }
+    }
+
     onSelectCard = (index) => {
         let cardsSelected = 0;
 

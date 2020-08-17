@@ -235,7 +235,7 @@ class MesaComponent extends React.Component {
                     {nombreP2}
                 </div>
                 <div className="jugador2">
-                    {cartasP1}
+                    {cartasP2}
                 </div>
                 <div className="cartas-mesa">
                     {rows}

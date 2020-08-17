@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import './App.css'
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import MenuPage from './pages/menu/menu'
 import MesaPage from './pages/mesa/mesa';
 import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component';
+import ReactLoading from 'react-loading';
 
 
 class App extends React.Component {
@@ -13,6 +15,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       isMesaPage: false,
+      isLoading: false,
+      textoLoading: "",
       connection: "",
       chat: [],
       juego: {
@@ -36,13 +40,15 @@ class App extends React.Component {
     // const client = new W3CWebSocket('ws://localhost:8000');
     // const client = new W3CWebSocket('ws://redes-proyecto-1-conquian.herokuapp.com/');
     const client = new W3CWebSocket('wss://redes-proyecto-1-conquian.herokuapp.com/');
-    
+
+    this.setState({isLoading:true, textoLoading: "Esperando conexión con el servidor..."})
+
     client.onopen = () => {
         console.log("open")
 
         // Enviar nombre de usuario al crear conexión
         client.send(JSON.stringify({opcion: 0, nombre: name}))
-        this.setState({connection: client})
+        this.setState({connection: client, textoLoading: "Esperando a que se conecten mas jugadores..."})
     }
 
     client.onmessage = (message) => {
@@ -55,7 +61,8 @@ class App extends React.Component {
         this.setState({
           gameId: data.gameId,
           playerId: data.playerId,
-          isMesaPage: true
+          isMesaPage: true,
+          isLoading: false
         })
       } else if (opcion === 0) { // Si el estado del juego cambia
         this.setState({
@@ -125,7 +132,7 @@ class App extends React.Component {
     }
 
     client.onclose = (event) => {
-      this.setState({isMesaPage: false, connection: ""})
+      this.setState({isMesaPage: false, connection: "", isLoading: false})
       store.addNotification({
         title: "Advertencia",
         message: "Se cerró la conexión con el servidor",
@@ -146,6 +153,16 @@ class App extends React.Component {
     return (
       <div>
         <ReactNotification />
+        { this.state.isLoading ?
+          <div className="loading-container">
+            <div className="loading-box">
+              <ReactLoading type={'spin'} color={'#008000'} height={100} width={100} />
+              {this.state.textoLoading}
+            </div>
+          </div>
+          :
+          <Fragment/>
+        }
         {
           this.state.isMesaPage ?
           <MesaPage gameId={this.state.gameId} playerId={this.state.playerId} chat={this.state.chat} juego={this.state.juego} connection={this.state.connection}/>

@@ -7,8 +7,9 @@ import MesaComponent from '../../components/mesa_component/MesaComponent'
 class MesaPage extends React.Component {
     constructor(props) {
         super(props)
-
-        console.log(props)
+        this.state = {
+            connection: props.connection
+        }
     }
 
     render() {
@@ -17,9 +18,9 @@ class MesaPage extends React.Component {
                 <div className="turno">
                     Turno de: J1
                 </div>
-                <MesaComponent/>
-                <ChatComponent/>
-                <CartasManoComponent/>
+                <MesaComponent juego={this.props.juego}/>
+                <ChatComponent gameId={this.props.gameId} playerId={this.props.playerId} chat={this.props.chat} connection={this.state.connection}/>
+                <CartasManoComponent gameId={this.props.gameId} playerId={this.props.playerId} juego={this.props.juego} connection={this.state.connection}/>
             </div>
         )
     }

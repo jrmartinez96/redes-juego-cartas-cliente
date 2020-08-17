@@ -7,42 +7,14 @@ class ChatComponent extends React.Component {
         super(props)
         this.state = {
             showChat: true,
-            messages: [
-                {
-                    message: "Mensaje ",
-                    nombre: "User "
-                },
-                {
-                    message: "Mensaje ",
-                    nombre: "User "
-                },
-                {
-                    message: "Mensaje ",
-                    nombre: "User "
-                },
-                {
-                    message: "Mensaje ",
-                    nombre: "User "
-                },
-                {
-                    message: "Mensaje ",
-                    nombre: "User "
-                },
-                {
-                    message: "Mensaje ",
-                    nombre: "User "
-                },
-                {
-                    message: "Mensaje ",
-                    nombre: "User "
-                },
-            ]
+            mensaje: ""
         }
     }
 
     componentDidMount() {
         this.updateScroll()
     }
+
 
     updateScroll = () => {
         if (this.messagesEnd) {
@@ -52,6 +24,27 @@ class ChatComponent extends React.Component {
 
     showHideChat = () => {
         this.setState({showChat: !this.state.showChat})
+    }
+
+    onInputChange = (ev) => {
+        if (ev.keyCode === 13) {
+            setTimeout(() => {
+                const { mensaje } = this.state
+                const { playerId, connection, gameId } = this.props
+
+                connection.send(JSON.stringify(
+                    {
+                        opcion: 2,
+                        playerId: playerId,
+                        mensaje: mensaje,
+                        gameId: gameId
+                    }
+                ))
+
+                this.setState({mensaje: ""})
+
+            }, 10)
+        }
     }
 
     render() {
@@ -65,12 +58,12 @@ class ChatComponent extends React.Component {
                     <Fragment>    
                         <div className="chat-messages" ref={(el) => { this.messagesEnd = el; }}>
                             {
-                                this.state.messages.map((message, index) => {
+                                this.props.chat.map((message, index) => {
 
                                     return (
                                         <div key={index} className="message-container">
                                             <div className="message-user">
-                                                {message.nombre}{index}:
+                                                {message.nombre}:
                                             </div>
                                             <div className="message-message">
                                                 {message.message}
@@ -82,7 +75,15 @@ class ChatComponent extends React.Component {
                             }
                         </div>
                         <div className="chat-input">
-                            <input className="message-input" placeholder="Ingresa tu mensaje..."></input>
+                            <input
+                                className="message-input" 
+                                placeholder="Ingresa tu mensaje..."
+                                onChange={(ev) => {
+                                    this.setState({mensaje: ev.target.value})
+                                }}
+                                value={this.state.mensaje}
+                                onKeyDown={(ev) => this.onInputChange(ev)}
+                            ></input>
                         </div>
                     </Fragment>
                     :

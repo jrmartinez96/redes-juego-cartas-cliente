@@ -174,12 +174,14 @@ class CartasManoComponent extends React.Component {
                     className="enviar-jugada" 
                     onClick={this.onEnviarMano}
                     disabled={this.props.juego.turnoId !== this.props.playerId}
-                >Enviar jugada</button>
+                >Enviar
+                <br/>
+                jugada</button>
                 <button 
                     className="pasar-jugada" 
                     onClick={this.onPasarJugada}
                     disabled={this.props.juego.turnoId !== this.props.playerId}
-                >Pasar jugada</button>
+                >Pasar<br/>jugada</button>
 
             </div>
         )

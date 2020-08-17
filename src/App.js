@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import './App.css'
-import { w3cwebsocket as W3CWebSocket, connection } from 'websocket';
+import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import MenuPage from './pages/menu/menu'
 import MesaPage from './pages/mesa/mesa';
 import ReactNotification from 'react-notifications-component'

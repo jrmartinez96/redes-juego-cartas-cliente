@@ -9,7 +9,8 @@ class MesaPage extends React.Component {
         super(props)
         this.state = {
             connection: props.connection,
-            nombreTurno: ""
+            nombreTurno: "",
+            cambioTurno: false
         }
     }
 
@@ -24,15 +25,20 @@ class MesaPage extends React.Component {
             });
 
             this.setState({
-                nombreTurno: nuevoNombre
+                nombreTurno: nuevoNombre,
+                cambioTurno: true
             })
+
+            setTimeout(() => {
+                this.setState({cambioTurno: false})
+            }, 3000);
         }
     }
 
     render() {
         return (
             <div className="mesa-page">
-                <div className="turno">
+                <div className={`turno ${this.state.cambioTurno ? 'cambio-color':''}`}>
                     Turno de: {this.state.nombreTurno}
                 </div>
                 <MesaComponent gameId={this.props.gameId} playerId={this.props.playerId} juego={this.props.juego}/>

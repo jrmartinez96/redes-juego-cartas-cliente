@@ -7,6 +7,9 @@ Esto levanta el proyecto de React en el puerto 3000
 ### Repositorio del backend
 https://github.com/jrmartinez96/redes-juego-cartas-servidor
 
+### Link de heroku del cliente
+https://conquian-cliente.herokuapp.com/
+
 # Sobre el proyecto
 El conquián o tercerilla es un juego de naipes que se juega con la baraja española. El objetivo del juego es agrupar todas nuestras cartas en cartas del mismo número o escaleras hasta no dejar ninguna carta suelta. Quien consiga primero que todas sus cartas estén agrupadas en cartas del mismo número o escaleras, gana.
 - Mazo: Baraja española

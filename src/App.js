@@ -37,9 +37,9 @@ class App extends React.Component {
   }
 
   onJoin = (name) => {
-    const client = new W3CWebSocket('ws://localhost:8000');
+    // const client = new W3CWebSocket('ws://localhost:8000');
     // const client = new W3CWebSocket('ws://redes-proyecto-1-conquian.herokuapp.com/');
-    // const client = new W3CWebSocket('wss://redes-proyecto-1-conquian.herokuapp.com/');
+    const client = new W3CWebSocket('wss://redes-proyecto-1-conquian.herokuapp.com/');
 
     this.setState({isLoading:true, textoLoading: "Esperando conexión con el servidor..."})
 
